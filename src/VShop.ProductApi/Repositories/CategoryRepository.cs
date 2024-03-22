@@ -1,36 +1,53 @@
-﻿using VShop.ProductApi.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using VShop.ProductApi.Context;
+using VShop.ProductApi.Models;
 
 namespace VShop.ProductApi.Repositories;
 
 public class CategoryRepository : ICategoryRepository
 {
-    public Task<Category> Create(Category category)
+    private readonly ProductApiDbContext _context;
+
+    public CategoryRepository(ProductApiDbContext context) => _context = context;
+
+    public async Task<IEnumerable<Category>> GetAll() => await _context.Categories
+                                                               .AsNoTracking()
+                                                               .DefaultIfEmpty()
+                                                               .ToListAsync();
+
+    public async Task<IEnumerable<Category>> GetCategoriesProducts() => await _context.Categories
+                                                                              .AsNoTracking()
+                                                                              .DefaultIfEmpty()
+                                                                              .Include(p => p.Products)
+                                                                              .ToListAsync();
+
+    public async Task<Category> GetById(int id) => await _context.Categories
+                                                         .AsNoTracking()
+                                                         .DefaultIfEmpty()
+                                                         .SingleOrDefaultAsync(p => p.CategoryId == id);
+
+    public async Task<Category> Create(Category category)
     {
-        throw new NotImplementedException();
+        await _context.Categories.AddAsync(category);
+        await SaveChangesAsync();
+
+        return category;
     }
 
-    public Task<Category> Delete(int id)
+    public async Task<Category> Update(Category category)
     {
-        throw new NotImplementedException();
+        _context.Entry(category).State = EntityState.Modified;
+        await SaveChangesAsync();
+
+        return category;
+    }
+    public async Task<Category> Delete(int id)
+    {
+        var category = await GetById(id);
+        _context.Categories.Remove(category);
+
+        return category;
     }
 
-    public Task<IEnumerable<Category>> GetAll()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Category> GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<Category>> GetCategoriesProducts()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Category> Update(Category category)
-    {
-        throw new NotImplementedException();
-    }
+    private async Task SaveChangesAsync() => await _context.SaveChangesAsync();
 }
