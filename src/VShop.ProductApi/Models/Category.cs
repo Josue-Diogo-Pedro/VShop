@@ -6,5 +6,5 @@ public class Category
     public string? Name { get; set; }
 
     //EF relations
-    public ICollection<Product> Products { get; set; }
+    public ICollection<Product>? Products { get; set; }
 }
