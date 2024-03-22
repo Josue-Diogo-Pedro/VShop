@@ -45,6 +45,7 @@ public class CategoryRepository : ICategoryRepository
     {
         var category = await GetById(id);
         _context.Categories.Remove(category);
+        await SaveChangesAsync();
 
         return category;
     }
