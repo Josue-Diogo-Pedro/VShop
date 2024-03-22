@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using VShop.ProductApi.Models;
 
 namespace VShop.ProductApi.Context;
@@ -9,4 +10,10 @@ public class ProductApiDbContext : DbContext
     public DbSet<Category>? Categories { get; set; }
 
     public ProductApiDbContext(DbContextOptions<ProductApiDbContext> options) : base(options) { }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Assembly).Assembly);
+    }
 }
