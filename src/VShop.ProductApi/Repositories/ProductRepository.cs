@@ -1,32 +1,50 @@
-﻿using VShop.ProductApi.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using VShop.ProductApi.Context;
+using VShop.ProductApi.Models;
 
 namespace VShop.ProductApi.Repositories;
 
 public class ProductRepository : IProductRepository
 {
+    private readonly ProductApiDbContext _context;
 
-    public Task<Product> Create(Product product)
+    public ProductRepository(ProductApiDbContext context) => _context = context;
+
+    public async Task<IEnumerable<Product>> GetAll() => await _context.Products
+                                                              .AsNoTracking()
+                                                              .DefaultIfEmpty()
+                                                              .ToListAsync();
+
+    public async Task<Product> GetById(int id) => await _context.Products
+                                                        .AsNoTracking()
+                                                        .DefaultIfEmpty()
+                                                        .SingleOrDefaultAsync(p => p.ProductId == id);
+
+    public async Task<Product> Create(Product product)
     {
-        throw new NotImplementedException();
+        await _context.AddAsync(product);
+        await SaveChangesAsync();
+
+        return product;
     }
 
-    public Task<Product> Delete(int id)
+    public async Task<Product> Update(Product product)
     {
-        throw new NotImplementedException();
+        _context.Entry(product).State = EntityState.Modified;
+        await SaveChangesAsync();
+
+        return product;
     }
 
-    public Task<IEnumerable<Product>> GetAll()
+    public async Task<Product> Delete(int id)
     {
-        throw new NotImplementedException();
+        var product = await GetById(id);
+        _context.Products.Remove(product);
+        await SaveChangesAsync();
+
+        return product;
     }
 
-    public Task<Product> GetById(int id)
-    {
-        throw new NotImplementedException();
-    }
+    private async Task SaveChangesAsync() => await _context.SaveChangesAsync();
 
-    public Task<Product> Update(Product product)
-    {
-        throw new NotImplementedException();
-    }
 }
