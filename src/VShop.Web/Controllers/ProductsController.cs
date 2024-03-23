@@ -32,4 +32,19 @@ public class ProductsController : Controller
 
         return View();
     }
+
+    [HttpPost]
+    public async Task<ActionResult> CreateProduct(ProductViewModel productVM)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await _productService.CreateProduct(productVM);
+            if (result is not null) return RedirectToAction(nameof(Index));
+        }
+        else
+        {
+            ViewBag.CategoryId = new SelectList(await _categoryService.GetAllCategories(), "CategoryId", "Name");
+        }
+        return View(productVM);
+    }
 }
