@@ -71,4 +71,24 @@ public class ProductsController : Controller
         }
         return View(productVM);
     }
+
+    [HttpGet]
+    public async Task<ActionResult> DeleteProduct(int id)
+    {
+        var result = await _productService.FindProductById(id);
+
+        if (result is null) return View("Error");
+
+        return View(result);
+    }
+
+    [HttpPost(), ActionName("DeleteProduct")]
+    public async Task<ActionResult> DeleteConfirmed(int id)
+    {
+        var result = await _productService.DeleteProductById(id);
+
+        if (!result) return View("Error");
+
+        return RedirectToAction(nameof(Index));
+    }
 }
