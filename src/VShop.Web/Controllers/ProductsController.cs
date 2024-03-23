@@ -47,4 +47,16 @@ public class ProductsController : Controller
         }
         return View(productVM);
     }
+
+    [HttpGet]
+    public async Task<ActionResult> UpdateProduct(int id)
+    {
+        ViewBag.CategoryId = new SelectList(await _categoryService.GetAllCategories(), "CategoryId", "Name");
+
+        var result = await _productService.FindProductById(id);
+
+        if (result is null) return View("Error");
+
+        return View(result);
+    }
 }
