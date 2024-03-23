@@ -59,4 +59,16 @@ public class ProductsController : Controller
 
         return View(result);
     }
+
+    [HttpPost]
+    public async Task<ActionResult> UpdateProduct(ProductViewModel productVM)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await _productService.UpdateProduct(productVM);
+
+            if (result is not null) return RedirectToAction(nameof(Index));
+        }
+        return View(productVM);
+    }
 }
