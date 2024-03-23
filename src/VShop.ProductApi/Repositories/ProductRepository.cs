@@ -13,11 +13,13 @@ public class ProductRepository : IProductRepository
     public async Task<IEnumerable<Product>> GetAll() => await _context.Products
                                                               .AsNoTracking()
                                                               .DefaultIfEmpty()
+                                                              .Include(c => c.Category)
                                                               .ToListAsync();
 
     public async Task<Product> GetById(int id) => await _context.Products
                                                         .AsNoTracking()
                                                         .DefaultIfEmpty()
+                                                        .Include(c => c.Category)
                                                         .SingleOrDefaultAsync(p => p.ProductId == id);
 
     public async Task<Product> Create(Product product)
