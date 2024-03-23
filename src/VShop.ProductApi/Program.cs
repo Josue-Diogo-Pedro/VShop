@@ -4,6 +4,7 @@ using VShop.ProductApi.Context;
 using VShop.ProductApi.DTOs.Mappings;
 using VShop.ProductApi.Repositories;
 using VShop.ProductApi.Services._Category;
+using VShop.ProductApi.Services._Product;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +29,7 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
