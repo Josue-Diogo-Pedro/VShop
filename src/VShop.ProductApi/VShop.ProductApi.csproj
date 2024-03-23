@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <Folder Include="Controllers\" />
+    <Folder Include="Services\_Product\" />
   </ItemGroup>
 
 </Project>
