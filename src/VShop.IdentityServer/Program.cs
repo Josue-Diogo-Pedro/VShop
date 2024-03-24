@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VShop.IdentityServer.Configuration;
 using VShop.IdentityServer.Data;
@@ -11,6 +12,10 @@ builder.Services.AddDbContext<IdentityServerDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
 });
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<IdentityServerDbContext>()
+                .AddDefaultTokenProviders();
 
 var builderIdentityServer = builder.Services.AddIdentityServer(options =>
 {
