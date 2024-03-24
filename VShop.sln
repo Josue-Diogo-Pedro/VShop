@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VShop.ProductApi", "src\VSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VShop.Web", "src\VShop.Web\VShop.Web.csproj", "{8B3BF076-0EA5-49A0-BBB1-6387524191DC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{22E865A8-57A1-4BE3-84F9-A3D6E6D871C7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{7C57F1E6-5868-4DEC-8E77-4236984ECFE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +28,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A8D6839B-C63D-4285-876E-615F9391108D} = {22E865A8-57A1-4BE3-84F9-A3D6E6D871C7}
+		{8B3BF076-0EA5-49A0-BBB1-6387524191DC} = {7C57F1E6-5868-4DEC-8E77-4236984ECFE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5AD03116-0B7A-4BC2-AD35-83AFB6F7572E}
