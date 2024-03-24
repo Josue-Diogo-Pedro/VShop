@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication;
 using VShop.Web.Services;
 using VShop.Web.Services.Contracts;
 
@@ -14,6 +15,27 @@ builder.Services.AddHttpClient("ProductApi", c =>
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = "Coockies";
+    options.DefaultChallengeScheme = "oidc";
+})
+    .AddCookie("Coockies", c => c.ExpireTimeSpan = TimeSpan.FromMinutes(10))
+    .AddOpenIdConnect("oidc", options =>
+    {
+        options.Authority = builder.Configuration["ServiceUri:IdentityServer"];
+        options.GetClaimsFromUserInfoEndpoint = true;
+        options.ClientId = "vshop";
+        options.ClientSecret = builder.Configuration["Client:Secret"];
+        options.ResponseType = "code";
+        options.ClaimActions.MapJsonKey("role", "role", "role");
+        options.ClaimActions.MapJsonKey("sub", "sub", "sub");
+        options.TokenValidationParameters.NameClaimType = "name";
+        options.TokenValidationParameters.RoleClaimType = "role";
+        options.Scope.Add("vshop");
+        options.SaveTokens = true;
+    });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +51,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
