@@ -2,6 +2,6 @@
 
 public interface IDatabaseSeedInitializer
 {
-    void InitializeSeedRoles();
-    void InitializeSeedUsers();
+    Task InitializeSeedRoles();
+    Task InitializeSeedUsers();
 }

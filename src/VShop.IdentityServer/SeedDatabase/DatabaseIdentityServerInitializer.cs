@@ -17,7 +17,7 @@ public class DatabaseIdentityServerInitializer : IDatabaseSeedInitializer
         _roleManager = roleManager;
     }
 
-    public async void InitializeSeedRoles()
+    public async Task InitializeSeedRoles()
     {
         //If Admin profile does not exist, then create profile
         if(!await _roleManager.RoleExistsAsync(IdentityConfiguration.Admin))
@@ -39,7 +39,7 @@ public class DatabaseIdentityServerInitializer : IDatabaseSeedInitializer
         }
     }
 
-    public async void InitializeSeedUsers()
+    public async Task InitializeSeedUsers()
     {
         //If Admin user doesn't exist create user, define password and delegate profile
         if(await _userManager.FindByEmailAsync("admin1@com.ao") is null)
