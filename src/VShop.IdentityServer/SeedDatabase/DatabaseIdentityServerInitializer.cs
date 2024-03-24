@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using IdentityModel;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 using VShop.IdentityServer.Configuration;
 using VShop.IdentityServer.Data;
 
@@ -37,8 +39,42 @@ public class DatabaseIdentityServerInitializer : IDatabaseSeedInitializer
         }
     }
 
-    public void InitializeSeedUsers()
+    public async void InitializeSeedUsers()
     {
-        throw new NotImplementedException();
+        //If Admin user doesn't exist create user, define password and delegate profile
+        if(await _userManager.FindByEmailAsync("admin1@com.ao") is null)
+        {
+            //Define data user admin
+            ApplicationUser admin = new()
+            {
+                UserName = "admin1",
+                NormalizedUserName = "ADMIN1",
+                Email = "admin1@com.ao",
+                NormalizedEmail = "ADMIN1@COM.AO",
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+                PhoneNumber = "+244 922222222",
+                FirstName = "Usuario",
+                LastName = "Admin1",
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            //Create admin user and delegate password
+            IdentityResult resultAdmin = await _userManager.CreateAsync(admin, "Numsey@2024");
+            if (resultAdmin.Succeeded)
+            {
+                //Include admin1 User to admin profile
+                await _userManager.AddToRoleAsync(admin, IdentityConfiguration.Admin);
+
+                //Include user claims admin
+                var adminClaims = await _userManager.AddClaimsAsync(admin, new Claim[]
+                {
+                    new Claim(JwtClaimTypes.Name, $"{admin.FirstName} {admin.LastName}"),
+                    new Claim(JwtClaimTypes.GivenName, admin.FirstName),
+                    new Claim(JwtClaimTypes.FamilyName, admin.LastName),
+                    new Claim(JwtClaimTypes.Role, IdentityConfiguration.Admin),
+                });
+            }
+        }
     }
 }
