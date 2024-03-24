@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using VShop.IdentityServer.Configuration;
 using VShop.IdentityServer.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,18 @@ builder.Services.AddDbContext<IdentityServerDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]);
 });
+
+var builderIdentityServer = builder.Services.AddIdentityServer(options =>
+{
+    options.Events.RaiseErrorEvents = true;
+    options.Events.RaiseInformationEvents = true;
+    options.Events.RaiseFailureEvents = true;
+    options.Events.RaiseSuccessEvents = true;
+    options.EmitStaticAudienceClaim = true;
+}).AddInMemoryIdentityResources(IdentityConfiguration.IdentityResources)
+  .AddInMemoryApiScopes(IdentityConfiguration.ApiScopes)
+  .AddInMemoryClients(IdentityConfiguration.Clients)
+  .AddAspNetIdentity<ApplicationUser>();
 
 var app = builder.Build();
 
