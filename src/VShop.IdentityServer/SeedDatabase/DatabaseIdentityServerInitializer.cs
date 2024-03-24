@@ -76,5 +76,41 @@ public class DatabaseIdentityServerInitializer : IDatabaseSeedInitializer
                 });
             }
         }
+
+        //If Client user doesn't exist create user, define password and delegate profile
+        if (await _userManager.FindByEmailAsync("client1@com.ao") is null)
+        {
+            //Define data user admin
+            ApplicationUser client = new()
+            {
+                UserName = "client1",
+                NormalizedUserName = "CLIENT1",
+                Email = "client1@com.ao",
+                NormalizedEmail = "CLIENT1@COM.AO",
+                EmailConfirmed = true,
+                LockoutEnabled = false,
+                PhoneNumber = "+244 922222222",
+                FirstName = "Usuario",
+                LastName = "Client1",
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+
+            //Create admin user and delegate password
+            IdentityResult resultClient = await _userManager.CreateAsync(client, "Numsey@2024");
+            if (resultClient.Succeeded)
+            {
+                //Include admin1 User to admin profile
+                await _userManager.AddToRoleAsync(client, IdentityConfiguration.Client);
+
+                //Include user claims admin
+                var adminClaims = await _userManager.AddClaimsAsync(client, new Claim[]
+                {
+                    new Claim(JwtClaimTypes.Name, $"{client.FirstName} {client.LastName}"),
+                    new Claim(JwtClaimTypes.GivenName, client.FirstName),
+                    new Claim(JwtClaimTypes.FamilyName, client.LastName),
+                    new Claim(JwtClaimTypes.Role, IdentityConfiguration.Client),
+                });
+            }
+        }
     }
 }
