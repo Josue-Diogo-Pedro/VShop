@@ -18,7 +18,7 @@ public class HomeController : Controller
         _productService = productService;
     }
 
-    public async Task<ActionResult> Index()
+    public async Task<IActionResult> Index()
     {
         var products = await _productService.GetAllProducts(string.Empty);
         if (products is null) return View("Error");

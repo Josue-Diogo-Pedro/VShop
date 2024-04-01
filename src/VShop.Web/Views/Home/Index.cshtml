@@ -1,8 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<ProductViewModel>
 
-<div class="text-center">
-    <h3>Shopping</h3>
-    <img src="~/images/vshop2.jpg" class="img-fluid" asp-append-version="true" />
-</div>
+<form>
+    <div class="conteiner row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-2">
+                
+                <a href="/Home/ProductDetails/@product.ProductId">
+                    <div class="card">
+                        <img class="img-thumbnail" src="/images/@product.ImagemURL" />
+                        <div class="card-body">
+                            <h5 class="card-title mb-2">@product.Name</h5>
+                            <p class="card-text text-black">
+                                <b>@product.Price.ToString("C")</b>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+        }
+    </div>
+</form>
