@@ -2,19 +2,19 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Runtime.CompilerServices;
 using VShop.Web.Models;
 using VShop.Web.Roles;
 using VShop.Web.Services.Contracts;
 
 namespace VShop.Web.Controllers;
 
+[Authorize(Roles = Role.Admin)]
 public class ProductsController : Controller
 {
     private readonly IProductService _productService;
     private readonly ICategoryService _categoryService;
 
-    public ProductsController(IProductService productService, ICategoryService categoryService) 
+    public ProductsController(IProductService productService, ICategoryService categoryService)
     {
         _productService = productService;
         _categoryService = categoryService;
@@ -38,7 +38,6 @@ public class ProductsController : Controller
     }
 
     [HttpPost]
-    [Authorize]
     public async Task<ActionResult> CreateProduct(ProductViewModel productVM)
     {
         if (ModelState.IsValid)
@@ -66,7 +65,6 @@ public class ProductsController : Controller
     }
 
     [HttpPost]
-    [Authorize]
     public async Task<ActionResult> UpdateProduct(ProductViewModel productVM)
     {
         if (ModelState.IsValid)
@@ -89,11 +87,10 @@ public class ProductsController : Controller
     }
 
     [HttpPost(), ActionName("DeleteProduct")]
-    [Authorize(Roles = Role.Admin)]
     public async Task<ActionResult> DeleteConfirmed(int id)
     {
         var result = await _productService.DeleteProductById(id, await Access_Token());
-        
+
         if (!result) return View("Error");
 
         return RedirectToAction(nameof(Index));

@@ -8,7 +8,6 @@ namespace VShop.ProductApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
 public class ProductsController : ControllerBase
 {
     private readonly IProductService _productService;
@@ -36,6 +35,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = Role.Admin)]
     public async Task<ActionResult> Post([FromBody] ProductDTO productDTO)
     {
         if (productDTO is null) return BadRequest("Invalid data");
