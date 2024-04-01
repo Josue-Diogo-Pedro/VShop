@@ -54,7 +54,7 @@ public class ProfileAppService : IProfileService
                 //Se _rolemanager suportar claims para roles
                 if (_roleManager.SupportsRoleClaims)
                 {
-                    //find user
+                    //find role
                     IdentityRole identityRole = await _roleManager.FindByNameAsync(role);
 
                     //include profile
