@@ -23,7 +23,7 @@ public class ProductsController : Controller
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ProductViewModel>>> Index()
     {
-        var result = await _productService.GetAllProducts(await Access_Token(HttpContext));
+        var result = await _productService.GetAllProducts(await Access_Token());
         if (result is null) return View("Error");
 
         return View(result);
@@ -32,7 +32,7 @@ public class ProductsController : Controller
     [HttpGet]
     public async Task<ActionResult> CreateProduct()
     {
-        ViewBag.CategoryId = new SelectList(await _categoryService.GetAllCategories(await Access_Token(HttpContext)), "CategoryId", "Name");
+        ViewBag.CategoryId = new SelectList(await _categoryService.GetAllCategories(await Access_Token()), "CategoryId", "Name");
 
         return View();
     }
@@ -43,12 +43,12 @@ public class ProductsController : Controller
     {
         if (ModelState.IsValid)
         {
-            var result = await _productService.CreateProduct(productVM, await Access_Token(HttpContext));
+            var result = await _productService.CreateProduct(productVM, await Access_Token());
             if (result is not null) return RedirectToAction(nameof(Index));
         }
         else
         {
-            ViewBag.CategoryId = new SelectList(await _categoryService.GetAllCategories(await Access_Token(HttpContext)), "CategoryId", "Name");
+            ViewBag.CategoryId = new SelectList(await _categoryService.GetAllCategories(await Access_Token()), "CategoryId", "Name");
         }
         return View(productVM);
     }
@@ -56,9 +56,9 @@ public class ProductsController : Controller
     [HttpGet]
     public async Task<ActionResult> UpdateProduct(int id)
     {
-        ViewBag.CategoryId = new SelectList(await _categoryService.GetAllCategories(await Access_Token(HttpContext)), "CategoryId", "Name");
+        ViewBag.CategoryId = new SelectList(await _categoryService.GetAllCategories(await Access_Token()), "CategoryId", "Name");
 
-        var result = await _productService.FindProductById(id, await Access_Token(HttpContext));
+        var result = await _productService.FindProductById(id, await Access_Token());
 
         if (result is null) return View("Error");
 
@@ -71,7 +71,7 @@ public class ProductsController : Controller
     {
         if (ModelState.IsValid)
         {
-            var result = await _productService.UpdateProduct(productVM, await Access_Token(HttpContext));
+            var result = await _productService.UpdateProduct(productVM, await Access_Token());
 
             if (result is not null) return RedirectToAction(nameof(Index));
         }
@@ -81,7 +81,7 @@ public class ProductsController : Controller
     [HttpGet]
     public async Task<ActionResult> DeleteProduct(int id)
     {
-        var result = await _productService.FindProductById(id, await Access_Token(HttpContext));
+        var result = await _productService.FindProductById(id, await Access_Token());
 
         if (result is null) return View("Error");
 
@@ -92,12 +92,12 @@ public class ProductsController : Controller
     [Authorize(Roles = Role.Admin)]
     public async Task<ActionResult> DeleteConfirmed(int id)
     {
-        var result = await _productService.DeleteProductById(id, await Access_Token(HttpContext));
+        var result = await _productService.DeleteProductById(id, await Access_Token());
         
         if (!result) return View("Error");
 
         return RedirectToAction(nameof(Index));
     }
 
-    private static async Task<string> Access_Token(HttpContext httpContext) => await httpContext.GetTokenAsync("access_token");
+    private async Task<string> Access_Token() => await HttpContext.GetTokenAsync("access_token");
 }
