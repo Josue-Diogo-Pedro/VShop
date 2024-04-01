@@ -72,8 +72,14 @@ public class ProfileAppService : IProfileService
         context.IssuedClaims = claims;
     }
 
-    public Task IsActiveAsync(IsActiveContext context)
+    public async Task IsActiveAsync(IsActiveContext context)
     {
-        throw new NotImplementedException();
+        //Obtain user id in IS
+        var id = context.Subject.GetSubjectId();
+
+        //Localiza o usuario
+        ApplicationUser user = await _userManager.FindByIdAsync(id);
+
+        context.IsActive = user is not null;
     }
 }
