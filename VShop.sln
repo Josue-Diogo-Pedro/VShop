@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VShop.ProductApi", "src\VShop.ProductApi\VShop.ProductApi.csproj", "{A8D6839B-C63D-4285-876E-615F9391108D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VShop.ProductApi", "src\VShop.ProductApi\VShop.ProductApi.csproj", "{A8D6839B-C63D-4285-876E-615F9391108D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VShop.Web", "src\VShop.Web\VShop.Web.csproj", "{8B3BF076-0EA5-49A0-BBB1-6387524191DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VShop.Web", "src\VShop.Web\VShop.Web.csproj", "{8B3BF076-0EA5-49A0-BBB1-6387524191DC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{22E865A8-57A1-4BE3-84F9-A3D6E6D871C7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{7C57F1E6-5868-4DEC-8E77-4236984ECFE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VShop.IdentityServer", "src\VShop.IdentityServer\VShop.IdentityServer.csproj", "{CDB4735E-444E-4136-9DE3-28571697C8FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VShop.IdentityServer", "src\VShop.IdentityServer\VShop.IdentityServer.csproj", "{CDB4735E-444E-4136-9DE3-28571697C8FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VShop.CartApi", "src\VShop.CartApi\VShop.CartApi.csproj", "{730C6E26-405F-47DD-870C-B4059AE583FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{CDB4735E-444E-4136-9DE3-28571697C8FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDB4735E-444E-4136-9DE3-28571697C8FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDB4735E-444E-4136-9DE3-28571697C8FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{730C6E26-405F-47DD-870C-B4059AE583FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{730C6E26-405F-47DD-870C-B4059AE583FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{730C6E26-405F-47DD-870C-B4059AE583FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{730C6E26-405F-47DD-870C-B4059AE583FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{A8D6839B-C63D-4285-876E-615F9391108D} = {22E865A8-57A1-4BE3-84F9-A3D6E6D871C7}
 		{8B3BF076-0EA5-49A0-BBB1-6387524191DC} = {7C57F1E6-5868-4DEC-8E77-4236984ECFE8}
 		{CDB4735E-444E-4136-9DE3-28571697C8FA} = {22E865A8-57A1-4BE3-84F9-A3D6E6D871C7}
+		{730C6E26-405F-47DD-870C-B4059AE583FF} = {22E865A8-57A1-4BE3-84F9-A3D6E6D871C7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5AD03116-0B7A-4BC2-AD35-83AFB6F7572E}
