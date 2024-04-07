@@ -45,7 +45,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<CartApiDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-})
+});
 
 var app = builder.Build();
 

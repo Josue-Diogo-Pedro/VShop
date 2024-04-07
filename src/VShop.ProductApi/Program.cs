@@ -59,6 +59,13 @@ var mappingConfig = new MapperConfiguration(config =>
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin()
+                                                      .AllowAnyMethod()
+                                                      .AllowAnyOrigin());
+});
+
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
