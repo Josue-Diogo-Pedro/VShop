@@ -54,6 +54,15 @@ builder.Services.AddCors(options =>
                                                       .AllowAnyOrigin());
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ApiScope", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "vshop");
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
