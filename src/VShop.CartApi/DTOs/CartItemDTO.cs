@@ -8,6 +8,6 @@ public class CartItemDTO
     public int Quantity { get; set; }
     public int ProductId { get; set; }
     public int CartHeaderId { get; set; }
-    public Product Product { get; set; } = new();
-    public CartHeader CartHeader { get; set; } = new();
+    public ProductDTO Product { get; set; } = new();
+    public CartHeaderDTO CartHeader { get; set; } = new();
 }

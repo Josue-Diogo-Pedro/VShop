@@ -4,6 +4,6 @@ namespace VShop.CartApi.DTOs;
 
 public class CartDTO
 {
-    public CartHeader CartHeader { get; set; } = new();
-    public IEnumerable<CartItem> CartItems { get; set; } = new List<CartItem>();
+    public CartHeaderDTO CartHeader { get; set; } = new();
+    public IEnumerable<CartItemDTO> CartItems { get; set; } = new List<CartItemDTO>();
 }
