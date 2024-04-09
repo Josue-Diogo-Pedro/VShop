@@ -35,21 +35,75 @@ public class CartRepository : ICartRepository
         return _mapper.Map<CartDTO>(cart);
 
     }
+    public async Task<bool> DeleteCartItemAsync(int cartItemId)
+    {
+        try
+        {
+            CartItem cartItem = await _context.CartItems?
+                                                        .AsNoTracking()?
+                                                        .DefaultIfEmpty()?
+                                                        .SingleOrDefaultAsync(c => c.CartItemId == cartItemId);
+
+            int total = await _context.CartItems?
+                                                .AsNoTracking()?
+                                                .DefaultIfEmpty()?
+                                                .Where(c => c.CartHeaderId == cartItem.CartHeaderId)?
+                                                .CountAsync();
+
+            if(total == 1)
+            {
+                CartHeader cartHeaderRemove = await _context.CartHeader?
+                                                                        .AsNoTracking()?
+                                                                        .DefaultIfEmpty()?
+                                                                        .SingleOrDefaultAsync(c => c.CartHeaderId == cartItem.CartHeaderId);
+
+                _context.CartHeader.Remove(cartHeaderRemove);
+            }
+
+            _context.CartItems.Remove(cartItem);
+            await SaveChangesAsync();
+
+            return true;
+
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    public async Task<bool> CleanCartAsync(string userId)
+    {
+        CartHeader cartHeader = await _context.CartHeader?
+                                                        .AsNoTracking()?
+                                                        .DefaultIfEmpty()?
+                                                        .SingleOrDefaultAsync(c => c.UserId == userId);
+
+        if(cartHeader is not null)
+        {
+            _context.CartItems.RemoveRange(await _context.CartItems?
+                                                                    .AsNoTracking()
+                                                                    .DefaultIfEmpty()?
+                                                                    .Where(c => c.CartHeaderId == cartHeader.CartHeaderId)?
+                                                                    .ToListAsync()
+                                          );
+
+            _context.CartHeader.Remove(cartHeader);
+
+            await SaveChangesAsync();
+
+            return true;
+        }
+
+        return false;
+    }
 
     public Task<bool> ApplyCouponAsync(string userId, string couponCode)
     {
         throw new NotImplementedException();
     }
 
-    public Task<bool> CleanCartAsync(string userId)
-    {
-        throw new NotImplementedException();
-    }
 
-    public Task<bool> DeleteCartItemAsync(int cartItemId)
-    {
-        throw new NotImplementedException();
-    }
 
     public Task<bool> DeleteCouponAsync(string userId)
     {
@@ -61,4 +115,6 @@ public class CartRepository : ICartRepository
     {
         throw new NotImplementedException();
     }
+
+    private async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
 }
