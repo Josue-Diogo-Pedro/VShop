@@ -1,7 +1,9 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using VShop.CartApi.Context;
+using VShop.CartApi.DTOs.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +48,14 @@ builder.Services.AddDbContext<CartApiDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+var mappingConfig = new MapperConfiguration(config =>
+{
+    config.AddProfile(new MappingProfile());
+});
+
+IMapper mapper = mappingConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 builder.Services.AddCors(options =>
 {
