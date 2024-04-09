@@ -10,4 +10,5 @@ public interface ICartRepository
     Task<bool> DeleteCartItemAsync(int cartItemId);
 
     Task<bool> ApplyCouponAsync(string userId, string couponCode);
+    Task<bool> DeleteCouponAsync(string userId);
 }
