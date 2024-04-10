@@ -98,6 +98,32 @@ public class CartRepository : ICartRepository
         return false;
     }
 
+    public async Task<CartDTO> UpdateCartAsync(CartDTO cartDTO)
+    {
+        Cart cart = _mapper.Map<Cart>(cartDTO);
+
+        //save product in database if isn't exist
+        await SaveProductInDataBase(cart, cartDTO);
+
+        //verify if CartHeader is null
+        CartHeader cartHeader = await _context.CartHeader?
+                                                        .AsNoTracking()?
+                                                        .DefaultIfEmpty()?
+                                                        .SingleOrDefaultAsync(c => c.UserId == cart.CartHeader.UserId);
+        if(cartHeader is null)
+        {
+            //create CartHeader and items
+            await CreateCartHeaderAndItems(cart);
+        }
+        else
+        {
+            //update quantity and items
+            await UpdateQuantityAndItems(cart, cartDTO, cartHeader);
+        }
+
+        return _mapper.Map<CartDTO>(cart);
+    }
+
     public Task<bool> ApplyCouponAsync(string userId, string couponCode)
     {
         throw new NotImplementedException();
@@ -110,11 +136,67 @@ public class CartRepository : ICartRepository
         throw new NotImplementedException();
     }
 
+    #region Private Functions
+    
+    private async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
 
-    public Task<CartDTO> UpdateCartAsync(CartDTO cartDTO)
+    private async Task SaveProductInDataBase(Cart cart, CartDTO cartDTO)
     {
-        throw new NotImplementedException();
+        //verify if product just was save, if not save
+        Product product = await _context.Products?
+                                                .AsNoTracking()?
+                                                .DefaultIfEmpty()?
+                                                .SingleOrDefaultAsync(p => p.ProductId == cartDTO.CartItems.FirstOrDefault().ProductId);
+
+        if(product is null)
+        {
+            await _context.Products.AddAsync(cart.CartItems?.FirstOrDefault()?.Product);
+            await SaveChangesAsync();
+        }
     }
 
-    private async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
+    private async Task CreateCartHeaderAndItems(Cart cart)
+    {
+        //Create CartHeader and CartItems
+        await _context.CartHeader.AddAsync(cart.CartHeader);
+        await SaveChangesAsync();
+
+        cart.CartItems.FirstOrDefault().CartHeaderId = cart.CartHeader.CartHeaderId;
+        cart.CartItems.FirstOrDefault().Product = null;
+
+        await _context.CartItems.AddAsync(cart.CartItems.FirstOrDefault());
+        await SaveChangesAsync();
+    }
+
+    private async Task UpdateQuantityAndItems(Cart cart, CartDTO cartDTO, CartHeader? cartHeader)
+    {
+        //If CartHeader is not null
+        //Verify if contains the same product
+        var cartDetails = await _context.CartItems?
+                                                  .AsNoTracking()?
+                                                  .DefaultIfEmpty()?
+                                                  .SingleOrDefaultAsync(p => p.ProductId == cartDTO.CartItems.FirstOrDefault().ProductId && p.CartHeaderId == cartHeader.CartHeaderId);
+
+        if(cartDetails is null)
+        {
+            //Create the CartItems
+            cart.CartItems.FirstOrDefault().CartHeaderId = cartHeader.CartHeaderId;
+            cart.CartItems.FirstOrDefault().Product = null;
+            await _context.CartItems.AddAsync(cart.CartItems.FirstOrDefault());
+            await SaveChangesAsync();
+        }
+        else
+        {
+            //Update quantity and CartItems
+            cart.CartItems.FirstOrDefault().Product = null;
+            cart.CartItems.FirstOrDefault().Quantity += cartDetails.Quantity;
+            cart.CartItems.FirstOrDefault().CartItemId = cartDetails.CartItemId;
+            cart.CartItems.FirstOrDefault().CartHeaderId = cartDetails.CartHeaderId;
+            _context.CartItems.Update(cart.CartItems.FirstOrDefault());
+            await SaveChangesAsync();
+        }
+    }
+
+    #endregion
+
 }
