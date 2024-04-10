@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using VShop.CartApi.Context;
 using VShop.CartApi.DTOs.Mappings;
+using VShop.CartApi.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,6 +57,8 @@ var mappingConfig = new MapperConfiguration(config =>
 
 IMapper mapper = mappingConfig.CreateMapper();
 builder.Services.AddSingleton(mapper);
+
+builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 builder.Services.AddCors(options =>
 {
