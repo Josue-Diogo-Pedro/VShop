@@ -87,11 +87,6 @@ public class CartService : ICartService
         return false;
     }
 
-    public Task<bool> ClearCartAsync(string userId, string token)
-    {
-        throw new NotImplementedException();
-    }
-
     #region Private functions
 
     private static void PutTokenInHeaderAuthorization(string token, HttpClient client)
@@ -100,6 +95,11 @@ public class CartService : ICartService
     #endregion
 
     #region Report and Checkout
+
+    public Task<bool> ClearCartAsync(string userId, string token)
+    {
+        throw new NotImplementedException();
+    }
 
     public Task<bool> ApplyCouponAsync(CartViewModel cartVM, string couponCode, string token)
     {
