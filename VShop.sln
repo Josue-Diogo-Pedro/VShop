@@ -13,7 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{7C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VShop.IdentityServer", "src\VShop.IdentityServer\VShop.IdentityServer.csproj", "{CDB4735E-444E-4136-9DE3-28571697C8FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VShop.CartApi", "src\VShop.CartApi\VShop.CartApi.csproj", "{730C6E26-405F-47DD-870C-B4059AE583FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VShop.CartApi", "src\VShop.CartApi\VShop.CartApi.csproj", "{730C6E26-405F-47DD-870C-B4059AE583FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VShop.DiscountApi", "src\VShop.DiscountApi\VShop.DiscountApi.csproj", "{579BC641-83F2-4381-84D9-4F7CBA204C7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{730C6E26-405F-47DD-870C-B4059AE583FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{730C6E26-405F-47DD-870C-B4059AE583FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{730C6E26-405F-47DD-870C-B4059AE583FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{579BC641-83F2-4381-84D9-4F7CBA204C7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{579BC641-83F2-4381-84D9-4F7CBA204C7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{579BC641-83F2-4381-84D9-4F7CBA204C7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{579BC641-83F2-4381-84D9-4F7CBA204C7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{8B3BF076-0EA5-49A0-BBB1-6387524191DC} = {7C57F1E6-5868-4DEC-8E77-4236984ECFE8}
 		{CDB4735E-444E-4136-9DE3-28571697C8FA} = {22E865A8-57A1-4BE3-84F9-A3D6E6D871C7}
 		{730C6E26-405F-47DD-870C-B4059AE583FF} = {22E865A8-57A1-4BE3-84F9-A3D6E6D871C7}
+		{579BC641-83F2-4381-84D9-4F7CBA204C7B} = {22E865A8-57A1-4BE3-84F9-A3D6E6D871C7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5AD03116-0B7A-4BC2-AD35-83AFB6F7572E}
