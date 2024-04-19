@@ -13,9 +13,17 @@ public class CartController : Controller
     public CartController(ICartService cartService) => _cartService = cartService;
 
     [Authorize]
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        CartViewModel? cartVM = await GetCartByUserId();
+
+        if(cartVM is null)
+        {
+            ModelState.AddModelError("CartNotFound", "Does not exist a cart yet... Come on Shopping");
+            return View("/Views/Cart/CartNotFound.cshtml");
+        }
+
+        return View(cartVM);
     }
 
     #region Private Functions
