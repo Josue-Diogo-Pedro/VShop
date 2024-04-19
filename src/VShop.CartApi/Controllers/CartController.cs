@@ -12,7 +12,7 @@ public class CartController : ControllerBase
 
 	public CartController(ICartRepository cartRepository) => _cartRepository = cartRepository;
 
-    [HttpGet("getcart/{id}")]
+    [HttpGet("getcart/{userId}")]
     public async Task<ActionResult<CartDTO>> GetCartByUserId(string userId)
     {
         var cartDto = await _cartRepository.GetCartByUserIdAsync(userId);

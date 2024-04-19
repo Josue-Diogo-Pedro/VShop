@@ -36,7 +36,7 @@ public class CartController : Controller
     {
         var cart = await _cartService.GetCartByUserIdAsync(GetUserId(), await GetAccessToken());
 
-        if(cart?.CartHeader is null)
+        if(cart?.CartHeader is not null)
         {
             foreach (var item in cart?.CartItems)
             {
