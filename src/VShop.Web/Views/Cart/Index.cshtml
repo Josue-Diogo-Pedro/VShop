@@ -1,5 +1,39 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model CartViewModel
+
+@if(Model.CartHeader is not null && Model.CartItems.Count() > 0){
+    <form method="post">
+        <br/>
+        <input asp-for="CartHeader.UserId" hidden />
+        <input asp-for="CartHeader.CartHeaderId" hidden />
+        
+        <div>
+            <div class="card border mt-4 container">
+                
+                <div class="card-header bg-dark text-light ml-0 row">
+                    
+                    <div class="col-5">
+                        <i class="fa fa-shopping-cart"></i> &nbsp; Shopping Cart
+                    </div>
+
+                    <div class="col-5 text-end">
+
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-outline-light btn-sm">Go Shopping</a>
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+    </form>
+}
+else{
+    <div>
+        <p>
+            Cart Empty !!! Shopping NOW...
+        </p>
+    </div>
 }
