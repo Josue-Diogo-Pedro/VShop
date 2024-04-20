@@ -27,7 +27,7 @@ public class ProductDTO
 
     public string? CategoryName { get; set; }
 
-    public string? ImagemURL { get; set; }
+    public string? ImageURL { get; set; }
 
     //EF relations
     [JsonIgnore]

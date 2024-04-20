@@ -7,7 +7,7 @@ public class Product
     public decimal Price { get; set; }
     public string? Description { get; set; }
     public long Stock { get; set; }
-    public string? ImagemURL { get; set; }
+    public string? ImageURL { get; set; }
 
     //EF relations
     public Category? Category { get; set; }

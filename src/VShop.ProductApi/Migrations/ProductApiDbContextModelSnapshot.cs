@@ -67,7 +67,7 @@ namespace VShop.ProductApi.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<string>("ImagemURL")
+                    b.Property<string>("ImageURL")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
