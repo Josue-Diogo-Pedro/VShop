@@ -26,6 +26,16 @@ public class CartController : Controller
         return View(cartVM);
     }
 
+    public async Task<IActionResult> RemoveItem(int cartId)
+    {
+        var result = await _cartService.RemoveItemFromCartAsync(cartId, await GetAccessToken());
+
+        if (result) return RedirectToAction(nameof(Index));
+
+        return View(cartId);
+    }
+
+
     #region Private Functions
 
     private async Task<string> GetAccessToken() => await HttpContext.GetTokenAsync("access_token");

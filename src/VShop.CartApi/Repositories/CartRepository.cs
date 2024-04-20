@@ -50,7 +50,10 @@ public class CartRepository : ICartRepository
                                                 .Where(c => c.CartHeaderId == cartItem.CartHeaderId)?
                                                 .CountAsync();
 
-            if(total == 1)
+            _context.CartItems.Remove(cartItem);
+            await SaveChangesAsync();
+
+            if (total == 1)
             {
                 CartHeader cartHeaderRemove = await _context.CartHeader?
                                                                         .AsNoTracking()?
@@ -58,10 +61,9 @@ public class CartRepository : ICartRepository
                                                                         .SingleOrDefaultAsync(c => c.CartHeaderId == cartItem.CartHeaderId);
 
                 _context.CartHeader.Remove(cartHeaderRemove);
+                await SaveChangesAsync();
             }
 
-            _context.CartItems.Remove(cartItem);
-            await SaveChangesAsync();
 
             return true;
 

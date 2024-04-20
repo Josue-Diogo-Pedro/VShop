@@ -1,16 +1,17 @@
 ﻿@model CartViewModel
 
-@if(Model.CartHeader is not null && Model.CartItems.Count() > 0){
+@if (Model.CartHeader is not null && Model.CartItems.Count() > 0)
+{
     <form method="post">
-        <br/>
+        <br />
         <input asp-for="CartHeader.UserId" hidden />
         <input asp-for="CartHeader.CartHeaderId" hidden />
-        
+
         <div>
             <div class="card border mt-4 container">
-                
+
                 <div class="card-header bg-dark text-light ml-0 row">
-                    
+
                     <div class="col-5">
                         <i class="fa fa-shopping-cart"></i> &nbsp; Shopping Cart
                     </div>
@@ -29,7 +30,6 @@
 
                         <div class="row text-dark">
                             <div class="col-lg-2">
-
                             </div>
 
                             <div class="col-lg-5">
@@ -56,45 +56,46 @@
                     @foreach (var item in Model.CartItems)
                     {
                         <div class="row h-100">
+
                             <div class="col-3 col-md-2 text-center py-2">
-                                <img src="~/images/@item.Product.ImageURL" class="rounded" width="100%"/>
+                                <img src="~/images/@item.Product.ImageURL" class="rounded" width="100%" />
                             </div>
-                        </div>
 
-                        <div class="col-6 col-md-5">
-                            <h5>@item.Product.Name</h5>
-                            <div style="font-size:12px">
-                                @Html.Raw(item.Product.Description)
+                            <div class="col-6 col-md-5">
+                                <h5>@item.Product.Name</h5>
+                                <div style="font-size:12px">
+                                    @Html.Raw(item.Product.Description)
+                                </div>
                             </div>
+
+                            <div class="col-2 col-md-2 pt-md-4 text-primary">
+                                <span style="font-size:17px;font-weight:bolder">
+                                    @string.Format("{0:c}", item.Product.Price)
+                                </span>
+                            </div>
+
+                            <div class="col-2 col-md-2 pt-md-4 text-primary">
+                                <span style="font-size:17px;font-weight:bolder">
+                                    @item.Quantity
+                                </span>
+                            </div>
+
+                            <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center">
+                                <a asp-action="RemoveItem" asp-route-id="@item.CartHeaderId" class="btn btn-outline-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+
                         </div>
 
-                        <div class="col-2 col-md-2 pt-md-4 text-primary">
-                            <span style="font-size:17px;font-weight:bolder">
-                                @string.Format("{0:c}", item.Product.Price)
-                            </span>
-                        </div>
-
-                        <div class="col-2 col-md-2 pt-md-4 text-primary">
-                            <span style="font-size:17px;font-weight:bolder">
-                                @item.Quantity
-                            </span>
-                        </div>
-
-                        <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center">
-                            <a asp-action="RemoveItem" asp-route-id="@item.CartHeaderId" class="btn btn-outline-danger">
-                                <i class="fa fa-trash"></i>
-                            </a>
-                        </div>
                         <hr />
                     }
 
                 </div>
 
-                
-
                 <div class="row">
                     <div class="col-6">
-                        
+
                         @if (string.IsNullOrEmpty(Model.CartHeader.CouponCode))
                         {
                             <span style="font-weight:bold">Discount:</span>
@@ -137,7 +138,8 @@
 
     </form>
 }
-else{
+else
+{
     <div>
         <p>
             Cart Empty !!! Shopping NOW...
