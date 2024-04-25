@@ -11,8 +11,8 @@ public class CouponConfiguration : IEntityTypeConfiguration<Coupon>
         builder.ToTable("Coupons");
         builder.HasKey(key => key.CouponId);
 
-        builder.Property(p => p.CouponCode).IsRequired().HasColumnType("varchar(30)");
-        builder.Property(p => p.Discount).IsRequired();
+        builder.Property(p => p.CouponCode).HasColumnType("varchar(30)");
+        builder.Property(p => p.Discount).HasColumnType("decimal(10,2)");
 
         builder.HasIndex(p => p.CouponCode).IsUnique();
     }
