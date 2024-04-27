@@ -57,7 +57,7 @@ public class CartController : Controller
             if (result) return RedirectToAction(nameof(Index));
         }
 
-        return View();
+            return View();
     }
 
     #region Private Functions

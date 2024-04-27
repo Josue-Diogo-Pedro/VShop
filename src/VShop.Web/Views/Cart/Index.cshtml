@@ -1,11 +1,14 @@
 ﻿@model CartViewModel
 
+
 @if (Model.CartHeader is not null && Model.CartItems.Count() > 0)
 {
     <form method="post">
         <br />
         <input asp-for="CartHeader.UserId" hidden />
         <input asp-for="CartHeader.CartHeaderId" hidden />
+        <input type="hidden" asp-for="CartItems" />
+        <input asp-for="CartHeader.TotalAmount" hidden />
 
         <div>
             <div class="card border mt-4 container">
@@ -108,7 +111,7 @@
                         {
                             <span style="font-weight:bold">Discount:</span>
                             <input asp-for="CartHeader.CouponCode" disabled />
-                            <button type="submit" asp-action="DeleteCoupon" class="btn btn-info" class="btn-danger" style="font-weight:bold;">
+                            <button type="submit" asp-action="DeleteCoupon" asp-route-userId="@Model.CartHeader.UserId" class="btn btn-info" class="btn-danger" style="font-weight:bold;">
                                 Delete
                             </button>
                         }
