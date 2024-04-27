@@ -31,6 +31,13 @@ public class CartController : Controller
         return View(cartVM);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Checkout()
+    {
+        CartViewModel? cartVM = await GetCartByUserId();
+        return View(cartVM);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Checkout(CartViewModel cartViewModel)
     {
@@ -56,13 +63,6 @@ public class CartController : Controller
         if (result) return RedirectToAction(nameof(Index));
 
         return View(cartId);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Checkout()
-    {
-        CartViewModel? cartVM = await GetCartByUserId();
-        return View(cartVM);
     }
 
     [HttpPost]
