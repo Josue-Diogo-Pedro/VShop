@@ -31,6 +31,18 @@ public class CartController : Controller
         return View(cartVM);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> Checkout(CartViewModel cartViewModel)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await _cartService.Chekout(cartViewModel.CartHeader, await GetAccessToken());
+            if (result is not null) return RedirectToAction(nameof(CheckoutCompleted));
+        }
+
+        return View(cartViewModel);
+    }
+
     public async Task<IActionResult> RemoveItem(int cartId)
     {
         var result = await _cartService.RemoveItemFromCartAsync(cartId, await GetAccessToken());
