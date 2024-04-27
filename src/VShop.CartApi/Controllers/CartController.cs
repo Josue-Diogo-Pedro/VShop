@@ -53,7 +53,7 @@ public class CartController : ControllerBase
     }
 
     [HttpPost("applycoupon")]
-    public async Task<ActionResult<CartDTO>> ApplyCoupon(CartDTO cartDTO)
+    public async Task<ActionResult<bool>> ApplyCoupon(CartDTO cartDTO)
     {
         var result = await _cartRepository.ApplyCouponAsync(cartDTO.CartHeader.UserId, cartDTO.CartHeader.CouponCode);
 
@@ -62,8 +62,8 @@ public class CartController : ControllerBase
         return Ok(result);
     }
 
-    [HttpDelete("deletecoupon/{}")]
-    public async Task<ActionResult<CartDTO>> DeleteCoupon(string userId)
+    [HttpDelete("deletecoupon/{userId}")]
+    public async Task<ActionResult<bool>> DeleteCoupon(string userId)
     {
         var result = await _cartRepository.DeleteCouponAsync(userId);
 
