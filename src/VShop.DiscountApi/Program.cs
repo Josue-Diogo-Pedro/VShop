@@ -62,20 +62,22 @@ builder.Services.AddSingleton(mapper);
 
 builder.Services.AddScoped<ICouponRepository, CouponRepository>();
 
+
+
+//builder.Services.AddAuthentication("Bearer").
+//    AddJwtBearer("Bearer", options =>
+//    {
+//        options.Authority = builder.Configuration["VShop.IdentityServer:ApplicationUrl"];
+
+//        options.TokenValidationParameters = new TokenValidationParameters { ValidateAudience = false };
+//    });
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder => builder.AllowAnyMethod()
                                                       .AllowAnyOrigin()
                                                       .AllowAnyOrigin());
 });
-
-builder.Services.AddAuthentication("Bearer").
-    AddJwtBearer("Bearer", options =>
-    {
-        options.Authority = builder.Configuration["VShop.IdentityServer:applicationUrl"];
-
-        options.TokenValidationParameters = new TokenValidationParameters { ValidateAudience = false };
-    });
 
 builder.Services.AddAuthorization(options =>
 {

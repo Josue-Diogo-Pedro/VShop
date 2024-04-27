@@ -20,7 +20,7 @@ public class CouponService : ICouponService
 
     public async Task<CouponViewModel> GetDiscountCoupon(string couponCode, string token)
     {
-        var client = _HttpClientFactory.CreateClient();
+        var client = _HttpClientFactory.CreateClient("DiscountApi");
         PutTokenInHeaderAuthorization(client, token);
 
         using (var response = await client.GetAsync($"{_apiURL}/{couponCode}"))
