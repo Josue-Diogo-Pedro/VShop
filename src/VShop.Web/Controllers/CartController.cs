@@ -36,6 +36,30 @@ public class CartController : Controller
     }
 
 
+    public async Task<IActionResult> ApplyCoupon(CartViewModel cartVM)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await _cartService.ApplyCouponAsync(cartVM, await GetAccessToken());
+
+            if (result) return RedirectToAction(nameof(Index));
+        }
+
+        return View();
+    }
+
+    public async Task<IActionResult> DeleteCoupon(string userId)
+    {
+        if (ModelState.IsValid)
+        {
+            var result = await _cartService.RemoveCouponAsync(userId, await GetAccessToken());
+
+            if (result) return RedirectToAction(nameof(Index));
+        }
+
+        return View();
+    }
+
     #region Private Functions
 
     private async Task<string> GetAccessToken() => await HttpContext.GetTokenAsync("access_token");
