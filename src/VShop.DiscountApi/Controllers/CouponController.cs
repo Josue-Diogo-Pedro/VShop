@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VShop.DiscountApi.DTOs;
 using VShop.DiscountApi.Repositories;
 
@@ -13,6 +14,8 @@ public class CouponController : ControllerBase
 	public CouponController(ICouponRepository couponRepository) => _couponRepository = couponRepository ?? 
                                                                                         throw new ArgumentNullException(nameof(couponRepository));
 
+    [HttpGet("{couponCode}")]
+    [Authorize]
     public async Task<ActionResult<CouponDTO>> GetDiscountCouponByCode(string couponCode)
     {
         var coupon = await _couponRepository.GetCouponByCode(couponCode);
