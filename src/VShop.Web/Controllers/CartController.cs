@@ -40,7 +40,14 @@ public class CartController : Controller
         return View(cartId);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Checkout()
+    {
+        CartViewModel? cartVM = await GetCartByUserId();
+        return View(cartVM);
+    }
 
+    [HttpPost]
     public async Task<IActionResult> ApplyCoupon(CartViewModel cartVM)
     {
         if (ModelState.IsValid)
@@ -53,6 +60,7 @@ public class CartController : Controller
         return View();
     }
 
+    [HttpPost]
     public async Task<IActionResult> DeleteCoupon(string userId)
     {
         if (ModelState.IsValid)
