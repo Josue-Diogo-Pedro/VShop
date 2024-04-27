@@ -43,6 +43,12 @@ public class CartController : Controller
         return View(cartViewModel);
     }
 
+    [HttpGet]
+    public IActionResult CheckoutCompleted()
+    {
+        return View();
+    }
+
     public async Task<IActionResult> RemoveItem(int cartId)
     {
         var result = await _cartService.RemoveItemFromCartAsync(cartId, await GetAccessToken());
